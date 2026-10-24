@@ -307,9 +307,9 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
 // Isi dua nilai ini dari Supabase Project Settings > API.
-const SUPABASE_URL = 'PASTE_SUPABASE_PROJECT_URL_HERE';
-const SUPABASE_ANON_KEY = 'PASTE_SUPABASE_ANON_KEY_HERE';
-const BUCKET = 'starbintang-media';
+const SUPABASE_URL = 'https://tmrcfkncixdmgxdytqdd.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_ljY4YvqwhD2J8i_QuVxxIw_dY5JL15r';
+const BUCKET = 'StarB1ntang-media';
 const configured = SUPABASE_URL.startsWith('https://') && !SUPABASE_URL.includes('PASTE_') && !SUPABASE_ANON_KEY.includes('PASTE_');
 const supabase = configured ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 const gallery = document.querySelector('#gallery');
