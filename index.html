@@ -381,34 +381,51 @@ gallery.innerHTML = filtered.map(m => `
   gallery.querySelectorAll('[data-delete]').forEach(el=>el.addEventListener('click',()=>deleteMemory(el.dataset.delete)));
 }
 
+
 async function loadMemories() {
-  if (!supabase) {
-    connection.textContent = "Mode galeri lokal";
+  let localMemories = [];
+  let cloudMemories = [];
 
-    try {
-      const response = await fetch("assets-list.json");
+  // 1. Baca foto/video dari folder assets melalui assets-list.json
+  try {
+    const response = await fetch("assets-list.json");
 
-      if (!response.ok) {
-        throw new Error("Daftar foto tidak ditemukan");
-      }
-
-      memories = await response.json();
-      render();
-
-      status.textContent =
-        `Menampilkan ${memories.length} foto/video lokal.`;
-    } catch (error) {
-      gallery.innerHTML = `
-        <div class="empty">
-          Gagal membaca daftar foto.
-          Jalankan generate_gallery.py dan buka
-          website melalui Live Server.
-        </div>
-      `;
+    if (response.ok) {
+      localMemories = await response.json();
     }
-
-    return;
+  } catch (error) {
+    console.warn("Daftar foto lokal gagal dibaca:", error);
   }
+
+  // 2. Baca foto/video dari Supabase jika tersedia
+  if (supabase) {
+    connection.textContent = "Galeri cloud aktif";
+
+    const { data, error } = await supabase
+      .from("memories")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("Supabase gagal dimuat:", error);
+      connection.textContent = "Galeri lokal";
+    } else {
+      cloudMemories = data || [];
+    }
+  } else {
+    connection.textContent = "Mode galeri lokal";
+  }
+
+  // 3. Gabungkan daftar lokal dan cloud
+  memories = [...cloudMemories, ...localMemories];
+
+  // 4. Tampilkan galeri
+  render();
+
+  status.textContent =
+    `Menampilkan ${memories.length} foto/video.`;
+}
+
 
   connection.textContent = "Galeri cloud aktif";
 
