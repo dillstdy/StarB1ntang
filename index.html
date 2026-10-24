@@ -227,27 +227,36 @@
 
 /* Khusus media di modal foto */
 #viewMedia {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   max-width: 100%;
+  max-height: 65vh;
   overflow: hidden;
 }
 
-#viewMedia .preview {
+#viewMedia img.preview {
   display: block;
-  width: 100%;
-  max-width: 100%;
+  width: auto;
   height: auto;
-  max-height: 60vh;
+  max-width: 100%;
+  max-height: 65vh;
   object-fit: contain;
   object-position: center;
   margin: 0 auto;
 }
 
 #viewMedia video.preview {
+  display: block;
+  width: 100%;
+  max-width: 100%;
   height: 60vh;
-  max-height: 60vh;
-  background: #071b50;
+  max-height: 65vh;
+  object-fit: contain;
+  margin: 0 auto;
 }
+
 
 </style>
 </head>
